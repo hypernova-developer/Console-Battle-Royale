@@ -25,3 +25,5 @@ You can easily compile this project using any modern C++ compiler (`g++`, `clang
 2. Run the following compilation command:
    ```bash
    g++ -std=c++11 main.cpp -o ConsoleBattleRoyale
+```
+
