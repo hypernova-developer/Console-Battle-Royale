@@ -25,5 +25,21 @@ You can easily compile this project using any modern C++ compiler (`g++`, `clang
 2. Run the following compilation command:
    ```bash
    g++ -std=c++11 main.cpp -o ConsoleBattleRoyale
-```
+   ```
 
+## Gameplay Mechanics
+
+| Action | ID | Outcome |
+| :--- | :--- | :--- |
+| **Attack** | `1` | Deals 150 raw damage. Reduced to 50 if the opponent chooses Defense. |
+| **Defense** | `2` | Blocks incoming basic attacks, mitigating the damage down to 50. |
+| **Ultimate** | `3` | Unleashes 300 massive unblockable damage. |
+
+## Developer
+
+- **Lead Developer:** hypernova-developer
+- **Development Year:** 2026
+
+## License
+
+This project is open-source software licensed under the **MIT License**. For more details, see the license comment inside the main source file or in the root directory of this repository. 
