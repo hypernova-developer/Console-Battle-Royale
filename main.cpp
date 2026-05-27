@@ -72,10 +72,12 @@ void InitGame()
     string name1;
     unsigned int health_point1 = max_health;
     int choice1;
+    bool p1_ultimate_used = false;
 
     string name2;
     unsigned int health_point2 = max_health;
     int choice2;
+    bool p2_ultimate_used = false;
 
     cout << "\nEnter Player 1 Name: ";
     cin >> name1;
@@ -89,77 +91,89 @@ void InitGame()
     {
         PrintStatus(turn, name1, health_point1, name2, health_point2);
 
-        cout << name1 << "'s Turn! Choose Action:\n\t1: Attack\n\t2: Defense\n\t3: Ultimate\nChoice: ";
+        cout << name1 << "'s Turn! Choose Action:\n\t1: Attack\n\t2: Defense\n\t3: Ultimate (" 
+             << (p1_ultimate_used ? "0" : "1") << " left)\nChoice: ";
         cin >> choice1;
 
-        cout << name2 << "'s Turn! Choose Action:\n\t1: Attack\n\t2: Defense\n\t3: Ultimate\nChoice: ";
+        cout << name2 << "'s Turn! Choose Action:\n\t1: Attack\n\t2: Defense\n\t3: Ultimate (" 
+             << (p2_ultimate_used ? "0" : "1") << " left)\nChoice: ";
         cin >> choice2;
+
+        if (choice1 == 3)
+        {
+            if (p1_ultimate_used)
+            {
+                cout << "\n[!] " << name1 << " tried to spam ULTIMATE but failed! Turn wasted!" << endl;
+                choice1 = 0;
+            }
+            else
+            {
+                p1_ultimate_used = true;
+            }
+        }
+
+        if (choice2 == 3)
+        {
+            if (p2_ultimate_used)
+            {
+                cout << "\n[!] " << name2 << " tried to spam ULTIMATE but failed! Turn wasted!" << endl;
+                choice2 = 0;
+            }
+            else
+            {
+                p2_ultimate_used = true;
+            }
+        }
 
         cout << "\n--- Round Results ---" << endl;
         SleepForMilliSeconds(500);
 
-        if (choice1 == 1 && choice2 != 2) 
+        if (choice1 == 1)
         {
-            cout << name1 << " attacked for 150 damage!" << endl;
-            if (health_point2 > 150) 
+            if (choice2 == 2)
             {
-                health_point2 -= 150;
+                cout << name2 << " blocked " << name1 << "'s attack! Reduced damage to 50!" << endl;
+                health_point2 = (health_point2 > 50) ? (health_point2 - 50) : 0;
             }
-            else 
+            else
             {
-                health_point2 = 0;
-            }
-        } 
-        else if (choice1 == 1 && choice2 == 2) 
-        {
-            cout << name2 << " blocked " << name1 << "'s attack! Reduced damage to 50!" << endl;
-            if (health_point2 > 50) 
-            {
-                health_point2 -= 50;
-            }
-            else 
-            {
-                health_point2 = 0;
+                cout << name1 << " attacked for 150 damage!" << endl;
+                health_point2 = (health_point2 > 150) ? (health_point2 - 150) : 0;
             }
         }
-        else if (choice1 == 3) 
+        else if (choice1 == 3)
         {
             cout << name1 << " unleashed ULTIMATE for 300 massive damage!" << endl;
-            if (health_point2 > 300) 
-            {
-                health_point2 -= 300;
-            }
-            else 
-            {
-                health_point2 = 0;
-            }
+            health_point2 = (health_point2 > 300) ? (health_point2 - 300) : 0;
+        }
+        else if (choice1 == 2 && choice2 != 1)
+        {
+            cout << name1 << " prepared for defense but no attack came!" << endl;
         }
 
         if (!IsHealth_0(health_point2)) 
         {
-            if (choice2 == 1 && choice1 != 2) 
+            if (choice2 == 1)
             {
-                cout << name2 << " attacked for 150 damage!" << endl;
-                if (health_point1 > 150) 
+                if (choice1 == 2)
                 {
-                    health_point1 -= 150;
+                    cout << name1 << " blocked " << name2 << "'s attack! Reduced damage to 50!" << endl;
+                    health_point1 = (health_point1 > 50) ? (health_point1 - 50) : 0;
                 }
-                else 
+                else
                 {
-                    health_point1 = 0;
+                    cout << name2 << " attacked for 150 damage!" << endl;
+                    health_point1 = (health_point1 > 150) ? (health_point1 - 150) : 0;
                 }
             }
-            else if (choice2 == 3) 
+            else if (choice2 == 3)
             {
                 cout << name2 << " unleashed ULTIMATE for 300 massive damage!" << endl;
-                if (health_point1 > 300) 
-                {
-                    health_point1 -= 300;
-                }
-                else 
-                {
-                    health_point1 = 0;
-                }
+                health_point1 = (health_point1 > 300) ? (health_point1 - 300) : 0;
+            }
+            else if (choice2 == 2 && choice1 != 1)
+            {
+                cout << name2 << " prepared for defense but no attack came!" << endl;
             }
         }
 
